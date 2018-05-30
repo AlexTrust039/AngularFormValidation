@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular Form Validation</title>
+	<script defer src="dist/main.js"></script>
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+<body ng-app = "myApp">
+	
+<form class="form" name="mainForm"  novalidate ng-controller="controller">
+	<div id="main">
+		<div class="column column1">
+			<h1>Старые данные:</h1>
+			<label>Фамилия</label><br>
+			<div class="inputWithIcon">
+			<input type="text" name="surnameRes" ng-model = "list.surname" disabled> <br>
+			<i class="far fa-clone" ng-click = "copy(mainForm)"></i>
+			</div>
+			<label>Тип документа</label><br>
+			<input type="text" name="selectRes" ng-model = "list.docType" disabled><br>
+
+			<label>Страна выдачи</label><br>
+			<input type="text" name="countryRes" ng-model = "list.country" disabled><br>
+
+			<label>Дата выдачи</label><br>
+			<input type="text" name="dateRes" ng-model = "list.date"  disabled><br>
+
+			<label>Серия и номер</label><br>
+			<input type="text" name="seriesRes" ng-model = "list.series" disabled><br>
+
+			<label>Код подразделения</label><br>
+			<input type="text" name="codeRes" ng-model = "list.code" disabled><br>
+
+			<label>Орган, выдавший документ</label><br>
+			<input type="text" name="organRes" ng-model = "list.organ" disabled><br>
+
+			<label>Адрес регистрации</label><br>
+			<input type="text" name="addressRes" ng-model = "list.address" disabled><br>
+
+		</div>
+		
+		<div class="column column2" ng-init="rusOnly = '^([А-Яа-яЁё]+)$'">
+
+			<h1>Изменить на:</h1>
+			<label  ng-show="mainForm.surname.$dirty">Фамилия</label><br>
+			<div ng-show="mainForm.surname.$invalid && mainForm.surname.$touched">
+				<small style="color: red">Введите фамилию русскими буквами</small>
+			</div>
+			<input type="text" name="surname" id="surnameForPaste" ng-model="form.surname" placeholder="Фамилия" ng-pattern="/^([А-Яа-яЁё]+)$/" ng-required="true"><br>
+
+
+			
+			<label ng-show="mainForm.select.$dirty" ng-required="true">Тип документа</label><br>
+			<div ng-show="mainForm.select.$pristine">
+				<small style="color: red">Выберите тип документа</small>
+			</div>
+			<select name = "select" ng-options = "doc for doc in docs.array" ng-model = "form.docType" ng-required="true">
+			</select><br>
+
+
+
+			<label ng-show="mainForm.country.$dirty">Страна выдачи</label><br>
+			<div ng-show="mainForm.country.$invalid && mainForm.country.$touched">
+				<small style="color: red">Введите страну выдачи русскими буквами</small>
+			</div>
+			<input type="text" name="country" ng-model="form.country" placeholder="Страна выдачи" ng-pattern="/^([А-Яа-яЁё]+)$/" ng-required="true"><br>
+
+
+
+			<label ng-show="mainForm.date.$dirty">Дата выдачи</label><br>
+			<div ng-show="mainForm.date.$invalid && mainForm.date.$touched">
+				<small style="color: red">Введите дату выдачи в формате дд.мм.гггг</small>
+			</div>
+			<input type="text" name="date" ng-model="form.date" placeholder="Дата выдачи" mask="99.99.9999" ng-required="true"><br>
+
+
+
+			<label ng-show="mainForm.series.$dirty">Серия и номер</label><br>
+			<div ng-show="mainForm.series.$invalid && mainForm.series.$touched">
+				<small style="color: red">Введите серию и номер в формате xxxx-xxxxxx</small>
+			</div>
+			<input type="text" name="series" ng-model="form.series" placeholder="Серия и номер" mask="9999-999999" ng-required="true"><br>
+
+
+
+			<label ng-show="mainForm.code.$dirty">Код подразделения</label><br>
+			<div ng-show="mainForm.code.$invalid && mainForm.code.$touched">
+				<small style="color: red">Введите код подразделения числом</small>
+			</div>
+			<input type="text" name="code" ng-model="form.code" placeholder="Код подразделения" ng-pattern="/^([0-9]+)$/" ng-required="true"><br>
+
+
+
+			<label ng-show="mainForm.organ.$dirty">Орган, выдавший документ</label><br>
+			<div ng-show="mainForm.organ.$invalid && mainForm.organ.$touched">
+				<small style="color: red">Введите наименование органа, выдавшего документ</small>
+			</div>
+			<input type="text" name="organ" ng-model="form.organ" placeholder="Орган, выдавший документ" ng-pattern="/[А-Яа-я]+/" ng-required="true"><br>
+
+
+
+			<label ng-show="mainForm.address.$dirty">Адрес регистрации</label><br>
+			<div ng-show="mainForm.address.$invalid && mainForm.address.$touched">
+				<small style="color: red">Введите адрес регистрации</small>
+			</div>
+			<input type="text" name="address" ng-model="form.address" placeholder="Адрес регистрации" ng-pattern="/[А-Яа-я0-9]+/" ng-required="true"><br>			
+		</div>		
+	</div>
+
+<input type="button" class="button" value="ПРЕРВАТЬ СЦЕНАРИЙ" ng-init = "show" ng-click="show = true">
+<input type="submit" class="button" value="ДОБАВИТЬ В КОРЗИНУ" ng-disabled = "mainForm.$invalid" ng-click = "redirect()">
+
+<div id='msg' ng-show = "show">
+		<output>СЦЕНАРИЙ ПРЕРВАН</output>
+</div>
+
+
+</form>
+</body>
+</html>
